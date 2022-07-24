@@ -1,0 +1,152 @@
+@import url(./assets/styles/fonts.css);
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root {
+    --main-blue: #082948;
+    --body-background: #f6f6f6;
+    --main-font: iransans, serif;
+    --font-size: 15px;
+    --sidebar-font: BYekan, serif;
+    --sidebar-width: 260px;
+    --note-small-background: #eeeeee;
+    --note-small-color: #7c7c7c;
+    --note-date-color: #aaaaaa;
+    --note-add-color: #00af8c;
+    --note-add-hover-color: #009578;
+    --main-black: #000;
+    --main-white: #fff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--main-font);
+    background-color: var(--body-background);
+    font-size: var(--font-size);
+}
+
+.notes {
+    display: flex;
+}
+
+.notes__sidebar {
+    font-family: var(--sidebar-font);
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    right: 0;
+    background: linear-gradient(180deg, #324467, #283142);
+    padding: 1.5rem 0.75rem;
+    border-radius: 100px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.5s;
+}
+
+.notes__logo {
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--main-white);
+    text-align: center;
+    font-family: poppins, serif;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 2rem 0;
+}
+
+.notes__list {
+    flex-grow: 1;
+    margin-top: 1rem;
+    overflow-y: auto;
+}
+
+.notes__list::-webkit-scrollbar {
+    display: none;
+}
+
+.notes__list-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 15px 0;
+    cursor: pointer;
+    color: var(--main-white);
+}
+
+.notes__list-item--selected {
+    background-color: var(--note-small-background);
+    border-radius: 7px;
+    color: var(--note-small-color);
+    font-weight: bold;
+}
+
+.notes__small-title,
+.notes__small-updated {
+    padding: 10px;
+}
+
+.notes__small-title {
+    font-size: 1.2rem;
+}
+
+.notes__small-body {
+    padding: 0 10px;
+}
+
+.notes__small-updated {
+    color: var(--note-date-color);
+}
+
+.notes__add {
+    border: none;
+    padding: 1.5em 0;
+    background-color: var(--note-add-color);
+    color: var(--main-white);
+    font-weight: bold;
+    letter-spacing: 0.2em;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-bottom: 1em;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+.notes__add:hover {
+    background-color: var(--note-add-hover-color);
+}
+
+/*---- NOTE PREVIEW SECTION -----*/
+
+.notes__preview {
+    display: flex;
+    flex-direction: column;
+    padding: 2em 3em;
+    flex-grow: 1;
+}
+
+.notes__title,
+.notes__body {
+    border: none;
+    outline: none;
+    width: 100%;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.notes__title {
+    font-size: 2.8rem;
+    font-weight: bold;
+}
+
+.notes__body {
+    flex-grow: 1;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-top: 2em;
+    resize: none;
+}
