@@ -20,6 +20,7 @@ const notes = [
 ];
 
 class NotesAPI {
+    //get all the notes in the local storage
     static getAllNotes() {
         const savedNotes = JSON.parse(localStorage.getItem("notes-app")) || [];
         //return sorted saved notes list:
@@ -28,6 +29,7 @@ class NotesAPI {
         });
     }
 
+    //save the note
     static saveNote(noteToSave) {
         const notes = NotesAPI.getAllNotes();
 
@@ -47,7 +49,15 @@ class NotesAPI {
         localStorage.setItem("notes-app", JSON.stringify(notes));
     }
 
-    static deleteNote() { }
+    //delete note with a specific id
+    static deleteNote(id) {
+        const notes = NotesAPI.getAllNotes();
+        //filter the notes with id not equal to what user entered
+        const filteredNotes = notes.filter(n => n.id !== id);
+        //update local storage 
+        localStorage.setItem("notes-app", JSON.stringify(filteredNotes));
+    }
 }
 
-console.log(NotesAPI.getAllNotes());
+//delete note with id == 3
+console.log(NotesAPI.deleteNote(3));
