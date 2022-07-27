@@ -15,6 +15,7 @@
     --note-add-hover-color: #009578;
     --main-black: #000;
     --main-white: #fff;
+    --main-red: rgb(255, 0, 0);
 }
 
 * {
@@ -84,6 +85,28 @@ body {
     font-weight: bold;
 }
 
+
+.notes__small-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notes__list-trash {
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*list trash can icon */
+.fa-trash-can {
+    color: var(--main-red);
+}
+
 .notes__small-title,
 .notes__small-updated {
     padding: 10px;
@@ -100,6 +123,7 @@ body {
 .notes__small-updated {
     color: var(--note-date-color);
 }
+
 
 .notes__add {
     border: none;
