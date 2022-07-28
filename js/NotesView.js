@@ -40,6 +40,9 @@ export default class NotesView {
             });
         });
 
+        //hide notes preview on first loading
+        this.updateNotePreviewVisiblity(false);
+
     }
 
     _createListItemHTML(id, title, body, updated) {
@@ -55,7 +58,7 @@ export default class NotesView {
                 ${body.length > MAX_BODY_LENGTH ? "..." : ""}
                 </div>
                 <div class="notes__small-updated">
-                    ${new Date(updated).toLocaleDateString("en")}
+                    ${new Date(updated).toLocaleDateString("en", { dateStyle: "full" })}
                 </div>
             </div>
         `;
@@ -84,6 +87,24 @@ export default class NotesView {
                 this.onNoteDelete(item.dataset.noteId);
             });
         });
+    }
+
+    //when a note is selected update the values
+    updateActiveNote(note) {
+        this.root.querySelector(".notes__title").value = note.title;
+        this.root.querySelector(".notes__body").value = note.body;
+
+        //remove selected class from previous elements:
+        this.root.querySelectorAll(".notes__list-item--selected").forEach(item => {
+            item.classList.remove("notes__list-item--selected");
+        });
+
+        //add selected class to clicked list item
+        this.root.querySelector(`.notes__list-item[data-note-id = "${note.id}"]`).classList.add("notes__list-item--selected");
+    }
+
+    updateNotePreviewVisiblity(visible) {
+        this.root.querySelector(".notes__preview").style.visibility = visible ? "visible" : "hidden";
     }
 
 }
