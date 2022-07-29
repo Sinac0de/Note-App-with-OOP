@@ -32,7 +32,7 @@ export default class NotesAPI {
     static deleteNote(id) {
         const notes = NotesAPI.getAllNotes();
         //filter the notes with id not equal to what user entered
-        const filteredNotes = notes.filter(n => n.id !== id);
+        const filteredNotes = notes.filter(n => n.id !== parseInt(id));
         //update local storage 
         localStorage.setItem("notes-app", JSON.stringify(filteredNotes));
     }

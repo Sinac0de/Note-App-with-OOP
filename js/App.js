@@ -14,36 +14,52 @@ export default class App {
         const notes = NotesAPI.getAllNotes();
 
         //set notes:
+        this._setNotes(notes);
+
+        //set active note:
+        if (notes.length > 0) {
+            this._setActiveNote(notes[0]);
+        }
+    }
+
+    _setNotes(notes) {
         this.notes = notes;
         this.view.updateNoteList(notes);
         this.view.updateNotePreviewVisiblity(notes.length > 0);
+    }
 
-        //set active note:
-        this.activeNote = notes[0];
-        this.view.updateActiveNote(notes[0]);
-
+    _setActiveNote(note) {
+        this.activeNote = note;
+        this.view.updateActiveNote(note);
     }
 
     _handlers() {
         return {
             onNoteAdd: () => {
                 const newNote = {
-                    title: "New Note",
-                    body: "take some note..."
+                    title: "یادداشت جدید",
+                    body: "یه چیزی رو یادداشت کن..."
                 };
                 NotesAPI.saveNote(newNote);
                 this._refreshNotes();
             },
             onNoteEdit: (newTitle, newBody) => {
-                console.log(newTitle, newBody);
+                NotesAPI.saveNote({
+                    id: this.activeNote.id,
+                    title: newTitle,
+                    body: newBody
+                });
+
+                this._refreshNotes();
+
             },
             onNoteSelect: (noteId) => {
                 const selectedNote = this.notes.find(n => n.id == noteId);
-                this.activeNote = selectedNote;
-                this.view.updateActiveNote(selectedNote);
+                this._setActiveNote(selectedNote);
             },
             onNoteDelete: (noteId) => {
-                console.log("onNoteDelete", noteId);
+                NotesAPI.deleteNote(noteId);
+                this._refreshNotes();
             }
         }
     }
