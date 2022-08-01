@@ -1,6 +1,6 @@
 
 
-![Picture](https://i.ibb.co/Kz6FFSZ/x-XMab-YYez-GITs-PPA8-Pdu-AZXEm-Xvz0-Xr71-FEQGqy4.jpg)
+![Picture](https://i.ibb.co/yQ636cd/note-app.png)
 # Note-App-with-OOP
 A Single Page Note App with LocalStorage and Object-Oriented Programming📒
 
