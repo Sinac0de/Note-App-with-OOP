@@ -2,8 +2,8 @@
 
 ![Picture](https://i.ibb.co/yQ636cd/note-app.png)
 # Note-App-with-OOP
-*A Single Page Note App with LocalStorage and Object-Oriented Programming📒
-*Responsive design (mobile & tablet) will be added soon!✌
+* A Single Page Note App with LocalStorage and Object-Oriented Programming📒
+* Responsive design (mobile & tablet) will be added soon!✌
 
 
 # Table of Contents
