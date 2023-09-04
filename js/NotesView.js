@@ -1,16 +1,23 @@
 export default class NotesView {
-    constructor(root, handlers) {
-        this.root = root;//app
+  constructor(root, handlers) {
+    this.root = root; //app
 
-        const { onNoteAdd, onNoteEdit, onNoteSelect, onNoteDelete } = handlers;
+    const { onNoteAdd, onNoteEdit, onNoteSelect, onNoteDelete } = handlers;
 
-        this.onNoteAdd = onNoteAdd;
-        this.onNoteEdit = onNoteEdit;
-        this.onNoteSelect = onNoteSelect;
-        this.onNoteDelete = onNoteDelete;
+    this.onNoteAdd = onNoteAdd;
+    this.onNoteEdit = onNoteEdit;
+    this.onNoteSelect = onNoteSelect;
+    this.onNoteDelete = onNoteDelete;
 
-        root.innerHTML = `
+    root.innerHTML = `
             <div class="notes__sidebar">
+                <svg id="hamburger" class="notes__sidebar-hamBtn" viewbox="0 0 60 40">
+                    <g stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                        <path id="top-line" d="M10,10 L50,10 Z"></path>
+                        <path id="middle-line" d="M10,20 L50,20 Z"></path>
+                        <path id="bottom-line" d="M10,30 L50,30 Z"></path>
+                    </g>
+                </svg>
                 <div class="notes__logo">NOTE APP</div>
                 <div class="notes__list"></div>
                 <button class="notes__add">ADD NOTE</button>
@@ -21,33 +28,38 @@ export default class NotesView {
             </div>
         `;
 
-        const addNoteBtn = this.root.querySelector(".notes__add");
-        const inputTitle = this.root.querySelector(".notes__title");
-        const inputBody = this.root.querySelector(".notes__body");
+    const addNoteBtn = this.root.querySelector(".notes__add");
+    const inputTitle = this.root.querySelector(".notes__title");
+    const inputBody = this.root.querySelector(".notes__body");
+    const hamMenuBtn = this.root.querySelector(".notes__sidebar-hamBtn");
 
-        //when user clicks the Add Note button
-        addNoteBtn.addEventListener("click", () => {
-            onNoteAdd();
-        });
+    //Toggle menu button
+    hamMenuBtn.addEventListener("click", () => {
+      hamMenuBtn.classList.toggle("menu-open");
+    });
 
-        [inputTitle, inputBody].forEach(inputField => {
-            //when user clicks outside of an input after clicking on it(focus)
-            inputField.addEventListener("blur", () => {
-                //trim the input values
-                const newTitle = inputTitle.value.trim();
-                const newBody = inputBody.value.trim();
-                onNoteEdit(newTitle, newBody);
-            });
-        });
+    //when user clicks the Add Note button
+    addNoteBtn.addEventListener("click", () => {
+      onNoteAdd();
+    });
 
-        //hide notes preview on first loading
-        this.updateNotePreviewVisiblity(false);
+    [inputTitle, inputBody].forEach((inputField) => {
+      //when user clicks outside of an input after clicking on it(focus)
+      inputField.addEventListener("blur", () => {
+        //trim the input values
+        const newTitle = inputTitle.value.trim();
+        const newBody = inputBody.value.trim();
+        onNoteEdit(newTitle, newBody);
+      });
+    });
 
-    }
+    //hide notes preview on first loading
+    this.updateNotePreviewVisiblity(false);
+  }
 
-    _createListItemHTML(id, title, body, updated) {
-        const MAX_BODY_LENGTH = 50;
-        return `
+  _createListItemHTML(id, title, body, updated) {
+    const MAX_BODY_LENGTH = 50;
+    return `
             <div class="notes__list-item" data-note-id="${id}">
                 <div class="notes__small-header">
                     <div class="notes__small-title">${title}</div>
@@ -58,53 +70,61 @@ export default class NotesView {
                 ${body.length > MAX_BODY_LENGTH ? "..." : ""}
                 </div>
                 <div class="notes__small-updated">
-                    ${new Date(updated).toLocaleString("en", { dateStyle: "full", timeStyle: "short" })}
+                    ${new Date(updated).toLocaleString("en", {
+                      dateStyle: "full",
+                      timeStyle: "short",
+                    })}
                 </div>
             </div>
         `;
+  }
+
+  updateNoteList(notes) {
+    const notesContainer = this.root.querySelector(".notes__list");
+    //empty the container
+    notesContainer.innerHTML = "";
+    let notesList = "";
+    for (const note of notes) {
+      const { id, title, body, updated } = note;
+      const html = this._createListItemHTML(id, title, body, updated);
+      notesList += html;
     }
+    notesContainer.innerHTML = notesList;
+    notesContainer.querySelectorAll(".notes__list-item").forEach((noteItem) => {
+      noteItem.addEventListener("click", (e) => {
+        this.onNoteSelect(noteItem.dataset.noteId);
+      });
+    });
 
-    updateNoteList(notes) {
-        const notesContainer = this.root.querySelector(".notes__list");
-        //empty the container
-        notesContainer.innerHTML = "";
-        let notesList = "";
-        for (const note of notes) {
-            const { id, title, body, updated } = note;
-            const html = this._createListItemHTML(id, title, body, updated);
-            notesList += html;
-        }
-        notesContainer.innerHTML = notesList;
-        notesContainer.querySelectorAll(".notes__list-item").forEach(noteItem => {
-            noteItem.addEventListener("click", (e) => {
-                this.onNoteSelect(noteItem.dataset.noteId);
-            });
-        });
+    notesContainer.querySelectorAll(".notes__list-trash").forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.stopPropagation();
+        this.onNoteDelete(item.dataset.noteId);
+      });
+    });
+  }
 
-        notesContainer.querySelectorAll(".notes__list-trash").forEach(item => {
-            item.addEventListener("click", (e) => {
-                e.stopPropagation();
-                this.onNoteDelete(item.dataset.noteId);
-            });
-        });
-    }
+  //when a note is selected update the values
+  updateActiveNote(note) {
+    this.root.querySelector(".notes__title").value = note.title;
+    this.root.querySelector(".notes__body").value = note.body;
 
-    //when a note is selected update the values
-    updateActiveNote(note) {
-        this.root.querySelector(".notes__title").value = note.title;
-        this.root.querySelector(".notes__body").value = note.body;
+    //remove selected class from previous elements:
+    this.root
+      .querySelectorAll(".notes__list-item--selected")
+      .forEach((item) => {
+        item.classList.remove("notes__list-item--selected");
+      });
 
-        //remove selected class from previous elements:
-        this.root.querySelectorAll(".notes__list-item--selected").forEach(item => {
-            item.classList.remove("notes__list-item--selected");
-        });
+    //add selected class to clicked list item
+    this.root
+      .querySelector(`.notes__list-item[data-note-id = "${note.id}"]`)
+      .classList.add("notes__list-item--selected");
+  }
 
-        //add selected class to clicked list item
-        this.root.querySelector(`.notes__list-item[data-note-id = "${note.id}"]`).classList.add("notes__list-item--selected");
-    }
-
-    updateNotePreviewVisiblity(visible) {
-        this.root.querySelector(".notes__preview").style.visibility = visible ? "visible" : "hidden";
-    }
-
+  updateNotePreviewVisiblity(visible) {
+    this.root.querySelector(".notes__preview").style.visibility = visible
+      ? "visible"
+      : "hidden";
+  }
 }
