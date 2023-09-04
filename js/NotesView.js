@@ -140,16 +140,17 @@ export default class NotesView {
 
     //check for empty section
     const mainContent = this.root.querySelector(".main");
-    if (visible === false) {
-      const div = document.createElement("div");
-      div.className = "empty-preview";
-      div.innerHTML = `
-      <h2>لطفا از قسمت منو یک یادداشت جدید ایجاد کنید 👉🏻</h2>`;
-      mainContent.appendChild(div);
-    } else {
-      if (this.root.querySelector(".empty-preview")) {
-        mainContent.removeChild(this.root.querySelector(".empty-preview"));
+    if (visible == false) {
+      if (!this.root.querySelector(".empty-preview")) {
+        const div = document.createElement("div");
+        div.className = "empty-preview";
+        div.innerHTML = `
+        <h2>لطفا از قسمت منو یک یادداشت جدید ایجاد کنید 👉🏻</h2>`;
+        mainContent.appendChild(div);
+        return;
       }
+    } else {
+      mainContent.removeChild(this.root.querySelector(".empty-preview"));
     }
   }
 }
