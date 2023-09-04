@@ -159,6 +159,7 @@ body {
   width: 100%;
   border-radius: 1rem;
   padding: 0.5rem 1rem;
+  box-shadow: 1px 1px 5px rgb(0, 0, 0, 0.1);
 }
 
 .notes__title {
@@ -179,9 +180,24 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
+  .notes__preview {
+    display: flex;
+    flex-direction: column;
+    padding: 5em 1.5em;
+    height: 100vh;
+    flex-grow: 1;
+    border: 1px solid red;
+  }
+
   .notes__sidebar {
     position: absolute;
-    min-width: 90%;
+    border-radius: 0;
+    width: 100%;
+    transform: translateX(100%);
+    transition: all 0.5s;
+  }
+  .notes__sidebar.sidebar-open {
+    transform: translateX(0);
   }
   .notes__sidebar-hamBtn {
     display: block;
@@ -190,6 +206,12 @@ body {
     right: 1em;
     max-width: 50px;
     cursor: pointer;
+    z-index: 999;
+  }
+
+  .notes__sidebar-hamBtn.menu-open path {
+    stroke: #fff;
+    transition: stroke 0.2s ease;
   }
 
   /* hamburger menu */

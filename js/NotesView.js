@@ -10,14 +10,14 @@ export default class NotesView {
     this.onNoteDelete = onNoteDelete;
 
     root.innerHTML = `
+            <svg id="hamburger" class="notes__sidebar-hamBtn" viewbox="0 0 60 40">
+                <g stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                <path id="top-line" d="M10,10 L50,10 Z"></path>
+                <path id="middle-line" d="M10,20 L50,20 Z"></path>
+                <path id="bottom-line" d="M10,30 L50,30 Z"></path>
+                </g>
+            </svg>
             <div class="notes__sidebar">
-                <svg id="hamburger" class="notes__sidebar-hamBtn" viewbox="0 0 60 40">
-                    <g stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-                        <path id="top-line" d="M10,10 L50,10 Z"></path>
-                        <path id="middle-line" d="M10,20 L50,20 Z"></path>
-                        <path id="bottom-line" d="M10,30 L50,30 Z"></path>
-                    </g>
-                </svg>
                 <div class="notes__logo">NOTE APP</div>
                 <div class="notes__list"></div>
                 <button class="notes__add">ADD NOTE</button>
@@ -32,10 +32,12 @@ export default class NotesView {
     const inputTitle = this.root.querySelector(".notes__title");
     const inputBody = this.root.querySelector(".notes__body");
     const hamMenuBtn = this.root.querySelector(".notes__sidebar-hamBtn");
+    const notesSidebar = this.root.querySelector(".notes__sidebar");
 
     //Toggle menu button
     hamMenuBtn.addEventListener("click", () => {
       hamMenuBtn.classList.toggle("menu-open");
+      notesSidebar.classList.toggle("sidebar-open");
     });
 
     //when user clicks the Add Note button
