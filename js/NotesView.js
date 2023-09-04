@@ -22,10 +22,13 @@ export default class NotesView {
                 <div class="notes__list"></div>
                 <button class="notes__add">ADD NOTE</button>
             </div>
-            <div class="notes__preview">
+            <div class="main">
+              <div class="notes__preview">
                 <input type="text" class="notes__title" placeholder="Note title">
                 <textarea class="notes__body">Take Note ...</textarea>
+              </div>
             </div>
+            
         `;
 
     const addNoteBtn = this.root.querySelector(".notes__add");
@@ -35,14 +38,19 @@ export default class NotesView {
     const notesSidebar = this.root.querySelector(".notes__sidebar");
 
     //Toggle menu button
-    hamMenuBtn.addEventListener("click", () => {
+    function toggleSidebar() {
       hamMenuBtn.classList.toggle("menu-open");
       notesSidebar.classList.toggle("sidebar-open");
-    });
+    }
+
+    this.toggleSidebar = toggleSidebar;
+
+    hamMenuBtn.addEventListener("click", this.toggleSidebar);
 
     //when user clicks the Add Note button
     addNoteBtn.addEventListener("click", () => {
       onNoteAdd();
+      this.toggleSidebar();
     });
 
     [inputTitle, inputBody].forEach((inputField) => {
@@ -95,6 +103,7 @@ export default class NotesView {
     notesContainer.querySelectorAll(".notes__list-item").forEach((noteItem) => {
       noteItem.addEventListener("click", (e) => {
         this.onNoteSelect(noteItem.dataset.noteId);
+        this.toggleSidebar();
       });
     });
 
@@ -128,5 +137,19 @@ export default class NotesView {
     this.root.querySelector(".notes__preview").style.visibility = visible
       ? "visible"
       : "hidden";
+
+    if (visible === false) {
+      const div = document.createElement("div");
+      div.className = "empty-preview";
+      div.innerHTML = `
+      <h2>لطفا از قسمت منو یک یادداشت جدید ایجاد کنید 👉🏻</h2>`;
+      this.root.querySelector(".main").appendChild(div);
+    } else {
+      if (this.root.querySelector(".empty-preview")) {
+        this.root
+          .querySelector(".main")
+          .removeChild(this.root.querySelector(".empty-preview"));
+      }
+    }
   }
 }
