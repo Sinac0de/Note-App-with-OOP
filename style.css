@@ -145,7 +145,27 @@ body {
 
 /*---- NOTE PREVIEW SECTION -----*/
 
+.empty-preview {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.empty-preview h2 {
+  font-size: 2rem;
+  padding: 1em;
+  z-index: 5;
+}
+
+.main,
 .notes__preview {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 2em 3em;
@@ -180,25 +200,28 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-  .notes__preview {
+  .notes__preview,
+  .main {
     display: flex;
     flex-direction: column;
     padding: 5em 1.5em;
     height: 100vh;
     flex-grow: 1;
-    border: 1px solid red;
   }
 
   .notes__sidebar {
     position: absolute;
+    z-index: 10;
     border-radius: 0;
     width: 100%;
     transform: translateX(100%);
     transition: all 0.5s;
   }
+
   .notes__sidebar.sidebar-open {
     transform: translateX(0);
   }
+
   .notes__sidebar-hamBtn {
     display: block;
     position: absolute;
