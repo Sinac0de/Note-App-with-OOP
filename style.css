@@ -128,7 +128,6 @@ body {
   border: none;
   padding: 1.5em 0;
   background-color: var(--note-add-color);
-  position: fixed;
   color: var(--main-white);
   font-weight: bold;
   letter-spacing: 0.2em;
@@ -221,7 +220,7 @@ body {
 
   .notes__add {
     position: relative;
-    bottom: 1.5em;
+    bottom: 2em;
   }
 
   .notes__sidebar.sidebar-open {
